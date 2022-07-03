@@ -11,6 +11,7 @@
     import I_close from "./icons/i_close.svelte"
     import SubMenu from "./subMenu.svelte"
     import V_menu from "./v_menu.svelte"
+    import I_back from "./icons/i_back.svelte"
     // Link to icons
     import I_link from "$lib/i_link.svelte"
     // to know the current page
@@ -28,7 +29,9 @@
     // item to passe to passe as props
     // add description
     let item_c = $currentItem
-   
+    $: {
+        console.log('current path = ', $currentPage)
+    }
 
     // responsible to change the current item
     const changeCurrentItem = (item)=>{
@@ -64,6 +67,7 @@
         changeCurrentItem(item)
         action();
         handleShow();
+        handleClick('/product')
         goto('/product')
         //handleClick("/")
 
@@ -73,6 +77,7 @@
     // sub menu handler 
     const s_handleClick = (item)=>{
         changeGender(item)
+        handleClick('/')
         goto('/')
         // item is the choosen item from the sub menu
         // change the list of items for v menu
@@ -95,6 +100,12 @@
           if we change the current gender to Homme then the current item will be ""
           then we fetch all articles related to this gender 
         */
+    }
+
+    // this will handle the back click
+    const handleBack = ()=>{
+        console.log('back is clicked !!!')
+        history.back();
     }
 </script>
 <div class="container">
@@ -127,7 +138,10 @@ class="logo">Logo</span>
 </div>
 
 <div class="mobile_container">
-    <div>
+    <div class="mb_container">
+        <span  class={$currentPage =="/"? "hide":"show"}>
+            <I_back  handleClick={handleBack}/>
+        </span> 
         <I_menu  handleClick={handleShow}/>
     </div>
     <a href="/">
@@ -173,7 +187,10 @@ class="logo">Logo</span>
     /*  Global class   */
     .hide{
         display: none;
-    } 
+    }
+    .show{
+        display: block
+    }
     /* mobile aproch first    */
     .mobile_container{
         width: 100% !important;
@@ -207,6 +224,12 @@ class="logo">Logo</span>
         box-sizing: border-box;
         display: flex;
         flex-direction: column
+    }
+    .mb_container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px
     }
     .header_menu {
         width: 100%;

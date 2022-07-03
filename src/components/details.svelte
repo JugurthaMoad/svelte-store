@@ -3,8 +3,31 @@
 -->
 <script>
     let show = false;
+    import {currentUser} from "../store/user"
+    import Auth from "./auth.svelte"
+    let sizeAlert = false;
+    let authAlert = false;
     const handleShow = ()=>{
         show = !show
+    }
+    const handleBuy = ()=>{
+        if($currentUser===""){
+            authAlert = true;
+        }else{
+            authAlert = false;
+            console.log('ajouter au pannier')
+        }
+    }
+    const closeAuthAlert = ()=>{
+        authAlert = false;
+    }
+    const handleSizeAlert = ()=>{
+        console.log('alert size')
+        sizeAlert = !sizeAlert
+    }
+    const handleClick = ()=>{
+        handleSizeAlert();
+        handleBuy();
     }
 </script>
 <div class="container">
@@ -26,7 +49,10 @@
         <div>
             sizes
         </div>
-        <div>
+        <div 
+        on:click={handleClick}
+        class="buy_btn">
+        <!--red text for non mobile screens -->
             button and like button
         </div>
         <div>
@@ -51,6 +77,13 @@
             other infos
         </div>
     </div>
+   
+</div>
+<div on:click|self={handleSizeAlert}
+class={sizeAlert ? "show_alert" : "hide"}>
+    <div class="size_alert" >
+        Details about choosing size ...
+    </div>
 </div>
 <div
 on:click|self={handleShow}
@@ -60,9 +93,51 @@ class={show ? "img_container" : "hide"}>
     je suis l'image
 </div>
 </div>
+<div 
+on:click|self={closeAuthAlert}
+class={authAlert ? "aut_container": "hide"}>
+    <div class="aut_alert">
+            <Auth />
+    </div>
+</div>
 <style> 
       .hide{
         display: none;
+      }
+      .show_alert{
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        z-index: 20;
+        position: fixed;
+        box-sizing: border-box;
+        bottom: 0px;
+        background-color: rgba(0, 0, 0, 0.633);
+      }
+      .aut_container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        z-index: 20;
+        position: fixed;
+        box-sizing: border-box;
+        bottom: 0px;
+        background-color: rgba(0, 0, 0, 0.633);
+      }
+      .size_alert{
+        width: 100vw;
+        position: fixed;
+        bottom: 0px;
+        height: 40vh;
+        background-color: white;
+      }
+      .aut_alert{
+        width: 100vw;
+        height: 90vh;
+        position: fixed;
+        background-color: white;
       }
       .img_container{
         position: fixed;
@@ -146,6 +221,15 @@ class={show ? "img_container" : "hide"}>
         padding: 10px;
         box-sizing: border-box;
     }
+    .buy_btn{
+        background-color: black;
+        position: fixed;
+        bottom: 0px;
+        color: white;
+    }
+    .buy_btn:hover{
+        cursor: pointer;
+    }
     @media only screen and (min-width:640px){
         .info {
         width: 40%;
@@ -190,6 +274,15 @@ class={show ? "img_container" : "hide"}>
         height: 70vh;
         background-color: white;
         color: black;
+      }
+      .buy_btn{
+        position: relative;
+      }
+      .show_alert{
+        display: none;
+      }
+      .aut_container{
+        display: none;
       }
     }
 </style>

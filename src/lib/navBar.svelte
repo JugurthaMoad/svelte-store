@@ -24,6 +24,7 @@
         nav{
         width: 100%;
         height: 60px;
+       
         margin: 0px;
         box-sizing: border-box;
         border-radius: 0px;

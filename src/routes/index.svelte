@@ -2,6 +2,10 @@
  import Articles from '../components/articles.svelte'
  import VerticalMenu from "$lib/verticalMenu.svelte"
  import StartContent from "../components/startContent.svelte"
+ import { onMount } from 'svelte';
+ import {currentPage} from '../store/page'
+
+ onMount(()=> currentPage.changePage("/"))
 </script>
 
 

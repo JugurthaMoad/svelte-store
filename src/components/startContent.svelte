@@ -9,6 +9,7 @@
 </script>
 <script>
 import {currentGender } from '../store/choice'
+import {currentPage} from '../store/page'
 import StartTemplate from "./startTemplate.svelte"
 import VerticalMenu from "../lib/verticalMenu.svelte"
 import {currentList, currentItem} from "../store/listCategory"
@@ -17,6 +18,7 @@ import { goto } from '$app/navigation';
 const handleClick = (item)=>{
     console.log('clicked')
     currentItem.setCurrentItem(item)
+    currentPage.changePage('/product')
     goto('/product')
 }
 let list = $currentList
